@@ -1,33 +1,124 @@
-import { useState } from 'react'
+// // import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { useState } from 'react';
+
+
+//n.1 creo un oggetto di base
+const initialFormdata = {};
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  //n.5 creo un variabile di stato che abbia al suo interno il valore iniziale dell'oggetto
+  const [formData, setFormData] = useState(initialFormdata)
+  //n.10 aggiungo variabile di stato della card che genero dell'articolo
+  const [cardArticolo, setCardArticolo] =useState([]);
+
+  // n.2 crepo delle variabili di stato legate agli input da inserire
+  const [author, setAuthor] = useState("");
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+
+  //n.6 creo una funzione che mi aggiorni i dati di ogni variabile di stato con all'interno un oggetto che racchiuda le variabili di stato
+  function updateAuthor(event) {
+    const newOggetto = {
+      author: event.target.value,
+      title: formData.title,
+      body: formData.body
+
+    }
+    setFormData(newOggetto);
+  }
+
+  function updateTitle(event) {
+    const newOggetto = {
+      author: formData.author,
+      title: event.target.value,
+      body: formData.body
+
+    }
+    setFormData(newOggetto);
+  }
+
+function updateBody(event) {
+    const newOggetto = {
+      author: formData.author,
+      title: formData.title,
+      body: event.target.value
+
+    }
+    setFormData(newOggetto);
+  }
+
+// n.9 creo la funzione aggiungi Card Articolo
+function aggiungiArticolo (event) {
+  event.preventDefault();
+  setCardArticolo((current)=>[...current, formData])
+}
+
+
+
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header className='bg-warning py-3'><h1 className='container'>Il mio Blog </h1></header>
+
+      <section className='container py-5'>
+        <div className='row'>
+
+
+          {/* n.4 inserisco il form per gestire il submit dei dati senza onSubmit */}
+          {/* n.8 aggiungo funzione aggiungi articolo */}
+          <form onSubmit={aggiungiArticolo}>
+
+            {/* n.3 creo l'input */}
+            <div className='col-6 border'>
+              <label htmlFor="author">Autore</label>
+              <input id="author"
+                type="text"
+                value={author}
+                className='form-control'
+                onChange={(event) => setAuthor(event.target.value)} />
+            </div>
+
+            <div className='col-6 border'>
+              <label htmlFor="title">Titolo</label>
+              <input id="title"
+                type="text"
+                value={title}
+                className='form-control'
+                onChange={(event) => setTitle(event.target.value)} />
+            </div>
+
+            <div className='col-6 border'>
+              <label htmlFor="body">Articolo</label>
+              <input id="author"
+                type="text"
+                value={body}
+                className='form-control'
+                onChange={(event) => setBody(event.target.value)} />
+            </div>
+
+      {/* n.8 aggiungo bottone per submit form */}
+              <button className='btn btn-primary' type='submit'>Aggiungi</button>
+
+          </form>
+        </div>
+      </section >
+
+
+      {/* n.7 creo la sezione articolo */}
+      <section>
+        <div className='container border'>
+          <h2>{title}</h2>
+          <h4>{author}</h4>
+          <p>{body}</p>
+
+        </div>
+      </section>
+
     </>
   )
 }
