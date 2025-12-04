@@ -6,7 +6,12 @@ import { useState } from 'react';
 
 
 //n.1 creo un oggetto di base
-const initialFormdata = {};
+const initialFormdata = {
+  author: "",
+  title: "",
+  body: ""
+
+};
 
 
 
@@ -14,12 +19,12 @@ function App() {
   //n.5 creo un variabile di stato che abbia al suo interno il valore iniziale dell'oggetto
   const [formData, setFormData] = useState(initialFormdata)
   //n.10 aggiungo variabile di stato della card che genero dell'articolo
-  const [cardArticolo, setCardArticolo] =useState([]);
+  const [cardArticolo, setCardArticolo] = useState([]);
 
   // n.2 crepo delle variabili di stato legate agli input da inserire
-  const [author, setAuthor] = useState("");
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  // const [author, setAuthor] = useState("");
+  // const [title, setTitle] = useState("");
+  // const [body, setBody] = useState("");
 
   //n.6 creo una funzione che mi aggiorni i dati di ogni variabile di stato con all'interno un oggetto che racchiuda le variabili di stato
   function updateAuthor(event) {
@@ -42,7 +47,7 @@ function App() {
     setFormData(newOggetto);
   }
 
-function updateBody(event) {
+  function updateBody(event) {
     const newOggetto = {
       author: formData.author,
       title: formData.title,
@@ -52,11 +57,12 @@ function updateBody(event) {
     setFormData(newOggetto);
   }
 
-// n.9 creo la funzione aggiungi Card Articolo
-function aggiungiArticolo (event) {
-  event.preventDefault();
-  setCardArticolo((current)=>[...current, formData])
-}
+  // n.9 creo la funzione aggiungi Card Articolo
+  function aggiungiArticolo(event) {
+    event.preventDefault();
+    setCardArticolo((current) => [...current, formData])
+      setFormData(initialFormdata);
+  }
 
 
 
@@ -78,31 +84,31 @@ function aggiungiArticolo (event) {
               <label htmlFor="author">Autore</label>
               <input id="author"
                 type="text"
-                value={author}
+                value={FormData.author}
                 className='form-control'
-                onChange={(event) => setAuthor(event.target.value)} />
+                onChange={updateAuthor} />
             </div>
 
             <div className='col-6 border'>
               <label htmlFor="title">Titolo</label>
               <input id="title"
                 type="text"
-                value={title}
+                value={formData.title}
                 className='form-control'
-                onChange={(event) => setTitle(event.target.value)} />
+                onChange={updateTitle} />
             </div>
 
             <div className='col-6 border'>
               <label htmlFor="body">Articolo</label>
               <input id="author"
                 type="text"
-                value={body}
+                value={formData.body}
                 className='form-control'
-                onChange={(event) => setBody(event.target.value)} />
+                onChange={updateBody} />
             </div>
 
-      {/* n.8 aggiungo bottone per submit form */}
-              <button className='btn btn-primary' type='submit'>Aggiungi</button>
+            {/* n.8 aggiungo bottone per submit form */}
+            <button className='btn btn-primary' type='submit'>Aggiungi</button>
 
           </form>
         </div>
@@ -110,13 +116,17 @@ function aggiungiArticolo (event) {
 
 
       {/* n.7 creo la sezione articolo */}
-      <section>
-        <div className='container border'>
-          <h2>{title}</h2>
-          <h4>{author}</h4>
-          <p>{body}</p>
+      <section className='container'>
+        {cardArticolo.map((articolo, index)=>
+        <div key ={index} className='container border'>
+          <h2>{articolo.title}</h2>
+          <h4>{articolo.author}</h4>
+          <p>{articolo.body}</p>
 
         </div>
+        
+        )}
+        
       </section>
 
     </>
