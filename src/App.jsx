@@ -84,7 +84,7 @@ function App() {
               <label htmlFor="author">Autore</label>
               <input id="author"
                 type="text"
-                value={FormData.author}
+                value={formData.author}
                 className='form-control'
                 onChange={updateAuthor} />
             </div>
